@@ -11,9 +11,12 @@ import java.util.concurrent.CompletableFuture;
  * nécessaires au bon fonctionnement de notre jeu
  *
  * La liste des tests préalablement définis :
- * - Si l'attaque est la même (2 sens)
- * - Si la défense est le même (2 sens)
- * - Si l'attaque et défense sont les mêmes (2 sens)
+ * - Si l'attaque du premier pokemon est supérieure, il est vainqueur
+ * - Si l'attaque du premier pokemon est inférieure, il est perdant
+ * - Si la défense du premier pokemon est supérieure et que l'attaque des deux pokemons est la meme, il est vainqueur
+ * - Si la défense du premier pokemon est inférieure et que l'attaque des deux pokemons est la meme, il est perdant
+ * - Si les statistiques d'attaque et de défense sont les mêmes, le premier pokemon est vainqueur
+ * - Si les statistiques d'attaque et de défense sont les mêmes, le deuxième pokemon est perdant
  */
 
 class PokemonTest {
