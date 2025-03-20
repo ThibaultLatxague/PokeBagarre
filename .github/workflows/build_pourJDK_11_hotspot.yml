@@ -29,7 +29,7 @@ jobs:
         if: success() || failure()  # Exécuter cette étape même si les tests échouent
         with:
           name: Java Tests
-          path: build/test-results/test/*.xml  # Adapter ce chemin si nécessaire
+          path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml  # Adapter ce chemin si nécessaire
           reporter: java-junit
 
 
