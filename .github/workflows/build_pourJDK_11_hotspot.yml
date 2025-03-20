@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    name : Integration Continue = tests + build + generation rapports AUTO
+    name: Integration Continue = tests + build + generation rapports AUTO
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -17,27 +17,32 @@ jobs:
           distribution: 'zulu'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-        #uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Make gradlew executable
-        run:  chmod +x ./gradlew
+        run: chmod +x ./gradlew
       - name: Build & test and compute JaCoCo reports
-        run: ./gradlew build #jacocoTestReport
+        run: ./gradlew build jacocoTestReport
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()  # Exécuter cette étape même si les tests échouent
+        with:
+          name: Java Tests
+          path: build/test-results/test/*.xml  # Adapter ce chemin si nécessaire
+          reporter: java-junit
 
 
   build-test:
     name: Build & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4     # checkout the repo
-      #- run: npm ci                   # install packages
-      #- run: npm test                 # run tests (configured to use jest-junit reporter)
+      - uses: actions/checkout@v4
 
       - name: Test Report
         uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
+        if: success() || failure()
         with:
-          name: JEST Tests            # Name of the check run which will be created
-          #path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml    # Path to test results
-          reporter: java-junit        # Format of test results
+          name: JEST Tests
+          path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml
+          reporter: java-junit
