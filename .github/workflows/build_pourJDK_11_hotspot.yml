@@ -29,7 +29,7 @@ jobs:
         if: success() || failure()  # Exécuter cette étape même si les tests échouent
         with:
           name: Java Tests
-          path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml  # Adapter ce chemin si nécessaire
+          path: build/test-results/test/*.xml
           reporter: java-junit
 
 
@@ -46,3 +46,9 @@ jobs:
           name: JEST Tests
           path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml
           reporter: java-junit
+
+      - name: Debug test results
+        run: ls -R build/test-results/test/
+
+      - name: Run tests
+        run: ./gradlew test
