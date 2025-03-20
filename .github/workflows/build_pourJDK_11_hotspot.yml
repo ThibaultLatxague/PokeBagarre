@@ -32,12 +32,15 @@ jobs:
           path: build/test-results/test/*.xml
           reporter: java-junit
 
+      - name: Generate JaCoCo coverage report
+        run: ./gradlew jacocoTestReport
+
       # generates coverage-report.md and publishes as checkrun
       - name: JaCoCo Code Coverage Report
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          coverage_results_path: jacoco-report/test.xml
+          coverage_results_path: build/reports/jacoco/test/jacocoTestReport.xml
           coverage_report_name: Coverage
           coverage_report_title: JaCoCo
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -64,6 +67,8 @@ jobs:
           path: /coverage-results.md
           retention-days: 1
 
+      - name: Debug JaCoCo output
+        run: ls -R build/reports/jacoco/test/
 
   build-test:
     name: Build & Test
