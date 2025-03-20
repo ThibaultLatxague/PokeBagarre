@@ -2,6 +2,7 @@ package com.montaury.pokebagarre.metier;
 
 import com.montaury.pokebagarre.erreurs.ErreurMemePokemon;
 import com.montaury.pokebagarre.erreurs.ErreurPokemonNonRenseigne;
+import com.montaury.pokebagarre.erreurs.ErreurRecuperationPokemon;
 import com.montaury.pokebagarre.webapi.PokeBuildApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,12 +55,28 @@ public class BagarreTest {
     }
 
     @Test
-    public void devrait_determiner_le_vainqueur_correctement() {
+    public void devrait_lancer_erreur_car_mauvaise_recuperation_pokemon_1() {
         Pokemon pikachu = mock(Pokemon.class);
         Pokemon bulbizarre = mock(Pokemon.class);
 
         when(mockApi.recupererParNom("Pikachu")).thenReturn(CompletableFuture.completedFuture(pikachu));
+        when(mockApi.recupererParNom("pikachute")).thenReturn(CompletableFuture.failedFuture(new ErreurRecuperationPokemon("pikachute")));
+
+        when(pikachu.estVainqueurContre(bulbizarre)).thenReturn(true);
+
+        Pokemon vainqueur = bagarre.demarrer("Pikachu", "Bulbizarre").join();
+
+        assertThat(vainqueur).isEqualTo(pikachu);
+    }
+
+    @Test
+    public void devrait_lancer_erreur_car_mauvaise_recuperation_pokemon_2() {
+        Pokemon pikachu = mock(Pokemon.class);
+        Pokemon bulbizarre = mock(Pokemon.class);
+
+        when(mockApi.recupererParNom("pikachuterrrr")).thenReturn(CompletableFuture.failedFuture(new ErreurRecuperationPokemon("pikachuterrrr")));
         when(mockApi.recupererParNom("Bulbizarre")).thenReturn(CompletableFuture.completedFuture(bulbizarre));
+
         when(pikachu.estVainqueurContre(bulbizarre)).thenReturn(true);
 
         Pokemon vainqueur = bagarre.demarrer("Pikachu", "Bulbizarre").join();
