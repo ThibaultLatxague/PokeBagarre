@@ -81,11 +81,5 @@ jobs:
         if: success() || failure()
         with:
           name: JEST Tests
-          path: build/test-results/test/TEST-com.montaury.pokebagarre.metier.PokemonTest.xml
+          path: build/test-results/test/*.xml
           reporter: java-junit
-
-      - name: Debug test results
-        run: ls -R build/test-results/test/
-
-      - name: Run tests
-        run: ./gradlew test
