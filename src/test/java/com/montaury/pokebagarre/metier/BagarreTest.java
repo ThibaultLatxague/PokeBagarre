@@ -64,7 +64,7 @@ public class BagarreTest {
 
         when(pikachu.estVainqueurContre(bulbizarre)).thenReturn(true);
 
-        Pokemon vainqueur = bagarre.demarrer("Pikachu", "Bulbizarre").join();
+        Pokemon vainqueur = bagarre.demarrer("Pikachu", "pikachute").join();
 
         assertThat(vainqueur).isEqualTo(pikachu);
     }
@@ -79,7 +79,7 @@ public class BagarreTest {
 
         when(pikachu.estVainqueurContre(bulbizarre)).thenReturn(true);
 
-        Pokemon vainqueur = bagarre.demarrer("Pikachu", "Bulbizarre").join();
+        Pokemon vainqueur = bagarre.demarrer("pikachuterrrr", "Bulbizarre").join();
 
         assertThat(vainqueur).isEqualTo(pikachu);
     }
